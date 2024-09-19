@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Love Calculator</title>
-    <!-- Updated EmailJS SDK -->
-    <!--<script src="https://cdn.emailjs.com/dist/email.min.js"></script>-->
-    <script type="text/javascript"
-            src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -71,62 +67,13 @@
 <body>
     <div class="container">
         <h2>Love Calculator</h2>
-
-        <!-- Two text boxes for input -->
         <input type="text" id="name1" placeholder="Enter your name" />
         <input type="text" id="name2" placeholder="Enter partner's name" />
-
-        <!-- Button to trigger the result -->
         <br>
         <button onclick="calculateLove()">Display Result</button>
-
-        <!-- Label to display the result with animation -->
         <div class="result-label" id="resultLabel"></div>
     </div>
 
-    <!--<script>
-        // Initialize EmailJS with your public key (use your own key)
-        (function () {
-            emailjs.init("EzKAjn9gyQZXC8Awd"); // Replace with your correct EmailJS public key
-        })();
-
-        // Function to calculate love percentage and send email
-        function calculateLove() {
-            var name1 = document.getElementById('name1').value;
-            var name2 = document.getElementById('name2').value;
-
-            if (name1 === "" || name2 === "") {
-                alert("Please enter both names.");
-                return;
-            }
-
-            // Calculate random love percentage between 50 and 100
-            var lovePercentage = Math.floor(Math.random() * 50) + 50;
-
-            // Display the result in the label
-            var resultLabel = document.getElementById('resultLabel');
-            resultLabel.textContent = "Love Percentage between " + name1 + " and " + name2 + " is " + lovePercentage + "%";
-
-            // Show the animation
-            resultLabel.style.opacity = 1;
-
-            // Send email using EmailJS
-            var templateParams = {
-                name1: name1,
-                name2: name2,
-                lovePercentage: lovePercentage
-            };
-
-            emailjs.send('service_8egua8n', 'template_jlfrz5i', templateParams)
-                .then(function (response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                    alert("Love result sent successfully!");
-                }, function (error) {
-                    console.error('FAILED...', error); // Log detailed error
-                    alert("Error in sending email: " + error.text); // Display error message
-                });
-        }
-    </script>-->
     <script type="text/javascript">
         (function () {
             emailjs.init({
@@ -143,19 +90,30 @@
                 return;
             }
 
-            // Calculate frequency of characters
+            // Step 1: Count character frequencies
             var charCount = {};
-            var allChars = name1 + name2;
+            var allChars = name1 +"Love"+ name2;
             for (var char of allChars) {
                 if (char >= 'a' && char <= 'z') {
                     charCount[char] = (charCount[char] || 0) + 1;
                 }
             }
 
-            // Build the number from the character counts
-            var frequencyNumber = Object.values(charCount).map(count => count.toString()).join('');
+            var countString = '';
+            var seenChars = new Set();
+            for (var char of allChars) {
+                if (char >= 'a' && char <= 'z' && !seenChars.has(char)) {
+                    seenChars.add(char);
+                    countString += charCount[char];
+                }
+            }
 
-            // Function to reduce a number to a single digit
+            // Step 2: Combine first and last digits
+            var firstDigit = countString[0];
+            var lastDigit = countString[countString.length - 1];
+            var newNumber = parseInt(firstDigit) + parseInt(lastDigit);
+
+            // Step 3: Reduce the number to 2 digits or less
             function reduceNumber(numStr) {
                 while (numStr.length > 2) {
                     var sum = 0;
@@ -167,9 +125,9 @@
                 return parseInt(numStr);
             }
 
-            var reducedNumber = reduceNumber(frequencyNumber);
+            var reducedNumber = reduceNumber(newNumber.toString());
 
-            // Display the result in the label
+            // Display result
             var resultLabel = document.getElementById('resultLabel');
             var resultMessage = "Love Percentage between " + name1 + " and " + name2 + " is " + reducedNumber + "%";
             resultLabel.textContent = resultMessage;
@@ -182,10 +140,12 @@
 
             emailjs.send('service_8egua8n', 'template_jlfrz5i', templateParams)
                 .then(function (response) {
-                    console.log('SUCCESS!', response.status, response.text); 
+                    console.log('SUCCESS!', response.status, response.text);
                 }, function (error) {
-                    console.error('FAILED...', error); 
+                    console.error('FAILED...', error);
                 });
+
+        
         }
     </script>
 </body>
