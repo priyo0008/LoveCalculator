@@ -84,7 +84,7 @@
         <div class="result-label" id="resultLabel"></div>
     </div>
 
-    <script>
+    <!--<script>
         // Initialize EmailJS with your public key (use your own key)
         (function () {
             emailjs.init("EzKAjn9gyQZXC8Awd"); // Replace with your correct EmailJS public key
@@ -126,6 +126,67 @@
                     alert("Error in sending email: " + error.text); // Display error message
                 });
         }
+    </script>-->
+    <script type="text/javascript">
+        (function () {
+            emailjs.init({
+                publicKey: "EzKAjn9gyQZXC8Awd" // Replace with your correct EmailJS public key
+            });
+        })();
+
+        function calculateLove() {
+            var name1 = document.getElementById('name1').value.toLowerCase();
+            var name2 = document.getElementById('name2').value.toLowerCase();
+
+            if (name1 === "" || name2 === "") {
+                alert("Please enter both names.");
+                return;
+            }
+
+            // Calculate frequency of characters
+            var charCount = {};
+            var allChars = name1 + name2;
+            for (var char of allChars) {
+                if (char >= 'a' && char <= 'z') {
+                    charCount[char] = (charCount[char] || 0) + 1;
+                }
+            }
+
+            // Build the number from the character counts
+            var frequencyNumber = Object.values(charCount).map(count => count.toString()).join('');
+
+            // Function to reduce a number to a single digit
+            function reduceNumber(numStr) {
+                while (numStr.length > 2) {
+                    var sum = 0;
+                    for (var digit of numStr) {
+                        sum += parseInt(digit);
+                    }
+                    numStr = sum.toString();
+                }
+                return parseInt(numStr);
+            }
+
+            var reducedNumber = reduceNumber(frequencyNumber);
+
+            // Display the result in the label
+            var resultLabel = document.getElementById('resultLabel');
+            var resultMessage = "Love Percentage between " + name1 + " and " + name2 + " is " + reducedNumber + "%";
+            resultLabel.textContent = resultMessage;
+            resultLabel.style.opacity = 1;
+
+            // Send email using EmailJS
+            var templateParams = {
+                message: resultMessage
+            };
+
+            emailjs.send('service_8egua8n', 'template_jlfrz5i', templateParams)
+                .then(function (response) {
+                    console.log('SUCCESS!', response.status, response.text); 
+                }, function (error) {
+                    console.error('FAILED...', error); 
+                });
+        }
     </script>
-    </body>
+</body>
 </html>
