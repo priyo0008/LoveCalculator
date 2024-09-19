@@ -81,87 +81,6 @@
             });
         })();
 
-        //function calculateLove() {
-        //    var name1 = document.getElementById('name1').value.toLowerCase();
-        //    var name2 = document.getElementById('name2').value.toLowerCase();
-
-        //    if (name1 === "" || name2 === "") {
-        //        alert("Please enter both names.");
-        //        return;
-        //    }
-
-        //    // Step 1: Count character frequencies
-        //    var charCount = {};
-        //    var allChars = name1 +"love"+ name2;
-        //    for (var char of allChars) {
-        //        if (char >= 'a' && char <= 'z') {
-        //            charCount[char] = (charCount[char] || 0) + 1;
-        //        }
-        //    }
-
-        //    var countString = '';
-        //    var seenChars = new Set();
-        //    for (var char of allChars) {
-        //        if (char >= 'a' && char <= 'z' && !seenChars.has(char)) {
-        //            seenChars.add(char);
-        //            countString += charCount[char];
-        //        }
-        //    }
-
-        //    // Step 2: Combine first and last digits
-        //    var firstDigit = countString[0];
-        //    var lastDigit = countString[countString.length - 1];
-        //    var newNumber = parseInt(firstDigit) + parseInt(lastDigit);
-
-        //    // Step 3: Reduce the number to 2 digits or less
-        //    function reduceNumber(numStr) {
-        //        while (numStr.length > 2) {
-        //            var sum = 0;
-        //            for (var digit of numStr) {
-        //                sum += parseInt(digit);
-        //            }
-        //            numStr = sum.toString();
-        //        }
-        //        return parseInt(numStr);
-        //    }
-
-        //    var reducedNumber = reduceNumber(newNumber.toString());
-
-        //    // Display result
-        //    var resultLabel = document.getElementById('resultLabel');
-        //    var resultMessage = "Love Percentage between " + name1 + " and " + name2 + " is " + reducedNumber + "%";
-        //    resultLabel.textContent = resultMessage;
-        //    resultLabel.style.opacity = 1;
-
-        //    // Send email using EmailJS
-        //    var templateParams = {
-        //        message: resultMessage
-        //    };
-
-        //    //emailjs.send('service_8egua8n', 'template_jlfrz5i', templateParams)
-        //    //    .then(function (response) {
-        //    //        console.log('SUCCESS!', response.status, response.text);
-        //    //    }, function (error) {
-        //    //        console.error('FAILED...', error);
-        //    //    });
-
-        //    // Save message to text file
-        //    fetch('/saveMessage', {
-        //        method: 'POST',
-        //        headers: {
-        //            'Content-Type': 'application/json'
-        //        },
-        //        body: JSON.stringify({ message: resultMessage })
-        //    })
-        //        .then(response => response.text())
-        //        .then(data => {
-        //            console.log('File save response:', data);
-        //        })
-        //        .catch(error => {
-        //            console.error('Error saving message:', error);
-        //        });
-        //}
-
         function calculateLove() {
             var name1 = document.getElementById('name1').value.toLowerCase();
             var name2 = document.getElementById('name2').value.toLowerCase();
@@ -192,24 +111,20 @@
 
             // Step 2: Reduce the number based on pairing logic
             function reduceNumber(numStr) {
-                debugger;
-                while (parseInt(numStr)>100) {
+                while (parseInt(numStr) > 100) {
                     var newNumber = '';
                     var len = numStr.length;
 
-                    // Pair digits and sum them
                     for (var i = 0; i < Math.floor(len / 2); i++) {
                         var firstDigit = parseInt(numStr[i]);
                         var lastDigit = parseInt(numStr[len - i - 1]);
                         newNumber += (firstDigit + lastDigit).toString();
                     }
 
-                    // Add the middle digit if the length is odd
                     if (len % 2 !== 0) {
                         newNumber += numStr[Math.floor(len / 2)];
                     }
 
-                    // Update numStr with the newNumber
                     numStr = newNumber;
                 }
 
@@ -218,15 +133,11 @@
 
             var reducedNumber = reduceNumber(countString);
 
-            // Further reduction to fit the number between 1 and 100
             function finalizeNumber(num) {
-                debugger;
-                // Sum of digits function
                 function sumDigits(n) {
                     return n.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
                 }
 
-                // Reduce number until it's between 1 and 100
                 while (num > 100) {
                     num = sumDigits(num);
                 }
@@ -242,24 +153,26 @@
             resultLabel.textContent = resultMessage;
             resultLabel.style.opacity = 1;
 
-            // Send email using EmailJS
-            var templateParams = {
-                message: resultMessage
-            };
+            // Check if this combination has been used before
+            if (localStorage.getItem(allChars)) {
+                console.log("This combination has been used before. Email will not be sent.");
+            } else {
+                // Send email using EmailJS if new combination
+                var templateParams = {
+                    message: resultMessage
+                };
 
-            emailjs.send('service_8egua8n', 'template_jlfrz5i', templateParams)
-                .then(function (response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                }, function (error) {
-                    console.error('FAILED...', error);
-                });
+                emailjs.send('service_8egua8n', 'template_jlfrz5i', templateParams)
+                    .then(function (response) {
+                        console.log('SUCCESS!', response.status, response.text);
+                    }, function (error) {
+                        console.error('FAILED...', error);
+                    });
 
-            // Save message to text file
-       
+                // Save the combination to localStorage
+                localStorage.setItem(allChars, "true");
+            }
         }
-
-
-
     </script>
 </body>
 </html>
