@@ -77,7 +77,7 @@
     <script type="text/javascript">
         (function () {
             emailjs.init({
-                publicKey: "EzKAjn9gyQZXC8Awd" // Replace with your correct EmailJS public key
+                publicKey: "yyS0clc5ZFwfAttiY" // Replace with your correct EmailJS public key
             });
         })();
 
@@ -152,7 +152,7 @@
             var resultMessage = "Love Percentage between " + name1 + " and " + name2 + " is " + reducedNumber + "%";
             resultLabel.textContent = resultMessage;
             resultLabel.style.opacity = 1;
-
+            debugger;
             // Check if this combination has been used before
             if (localStorage.getItem(allChars)) {
                 console.log("This combination has been used before. Email will not be sent.");
@@ -162,7 +162,7 @@
                     message: resultMessage
                 };
 
-                emailjs.send('service_8egua8n', 'template_jlfrz5i', templateParams)
+                emailjs.send('service_wq21cfm', 'template_av88vxm', templateParams)
                     .then(function (response) {
                         console.log('SUCCESS!', response.status, response.text);
                     }, function (error) {
