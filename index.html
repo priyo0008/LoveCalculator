@@ -118,10 +118,10 @@
             emailjs.send('service_8egua8n', 'template_jlfrz5i', templateParams)
                 .then(function (response) {
                     console.log('SUCCESS!', response.status, response.text);
-                    alert("Love result sent successfully!");
+                   // alert("Love result sent successfully!");
                 }, function (error) {
                     console.error('FAILED...', error); // Log detailed error
-                    alert("Error in sending email: " + error.text); // Display error message
+                  //  alert("Error in sending email: " + error.text); // Display error message
                 });
         }
     </script>
