@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Calculator</title>
+    <!-- Updated EmailJS SDK -->
+    <!--<script src="https://cdn.emailjs.com/dist/email.min.js"></script>-->
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        input[type="text"] {
+            width: 200px;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            button:hover {
+                background-color: #e84118;
+            }
+
+        .result-label {
+            margin-top: 30px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Love Calculator</h2>
+
+        <!-- Two text boxes for input -->
+        <input type="text" id="name1" placeholder="Enter your name" />
+        <input type="text" id="name2" placeholder="Enter partner's name" />
+
+        <!-- Button to trigger the result -->
+        <br>
+        <button onclick="calculateLove()">Display Result</button>
+
+        <!-- Label to display the result with animation -->
+        <div class="result-label" id="resultLabel"></div>
+    </div>
+
+    <script>
+        // Initialize EmailJS with your public key (use your own key)
+        (function () {
+            emailjs.init("EzKAjn9gyQZXC8Awd"); // Replace with your correct EmailJS public key
+        })();
+
+        // Function to calculate love percentage and send email
+        function calculateLove() {
+            var name1 = document.getElementById('name1').value;
+            var name2 = document.getElementById('name2').value;
+
+            if (name1 === "" || name2 === "") {
+                alert("Please enter both names.");
+                return;
+            }
+
+            // Calculate random love percentage between 50 and 100
+            var lovePercentage = Math.floor(Math.random() * 50) + 50;
+
+            // Display the result in the label
+            var resultLabel = document.getElementById('resultLabel');
+            resultLabel.textContent = "Love Percentage between " + name1 + " and " + name2 + " is " + lovePercentage + "%";
+
+            // Show the animation
+            resultLabel.style.opacity = 1;
+
+            // Send email using EmailJS
+            var templateParams = {
+                name1: name1,
+                name2: name2,
+                lovePercentage: lovePercentage
+            };
+
+            emailjs.send('service_8egua8n', 'template_jlfrz5i', templateParams)
+                .then(function (response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    alert("Love result sent successfully!");
+                }, function (error) {
+                    console.error('FAILED...', error); // Log detailed error
+                    alert("Error in sending email: " + error.text); // Display error message
+                });
+        }
+    </script>
+    </body>
+</html>
