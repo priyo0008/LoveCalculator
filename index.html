@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Love Calculator with Zodiac Signs</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url('lcal.jpg'); /* Background image for astrological look */
+            background-image: url('lcal.jpg');
             background-size: cover;
             color: white;
             text-align: center;
@@ -18,7 +20,7 @@
 
         .container {
             margin-top: 100px;
-            background-color: rgba(0, 0, 0, 0.7); /* Transparent background to highlight the content */
+            background-color: rgba(0, 0, 0, 0.7);
             padding: 30px;
             border-radius: 10px;
             width: 80%;
@@ -60,23 +62,6 @@
             animation: fadeIn 2s ease-in-out forwards;
         }
 
-        .zodiac-select {
-            display: inline-block;
-            width: 250px;
-            height: 40px;
-            background-color: #fff;
-            color: #333;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .zodiac-option {
-            background-size: 30px 30px;
-            background-repeat: no-repeat;
-            background-position: left;
-        }
-
         @keyframes fadeIn {
             0% {
                 opacity: 0;
@@ -93,6 +78,62 @@
             color: #ffcc00;
             font-family: 'Georgia', serif;
         }
+
+        .heart-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: 0;
+            background-image: url('heart.png'); /* Change to your heart image */
+            background-size: cover;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+            animation: floatUp 5s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        .animated-popup {
+            animation: bounceIn 0.5s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+            }
+
+            60% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -101,41 +142,40 @@
         <input type="text" id="name1" placeholder="Enter your name" /><br>
         <select class="zodiac-select" id="zodiac1" required>
             <option value="">Select Your Zodiac Sign</option>
-            <option class="zodiac-option" value="Aries">♈ Aries</option>
-            <option class="zodiac-option" value="Taurus">♉ Taurus</option>
-            <option class="zodiac-option" value="Gemini">♊ Gemini</option>
-            <option class="zodiac-option" value="Cancer">♋ Cancer</option>
-            <option class="zodiac-option" value="Leo">♌ Leo</option>
-            <option class="zodiac-option" value="Virgo">♍ Virgo</option>
-            <option class="zodiac-option" value="Libra">♎ Libra</option>
-            <option class="zodiac-option" value="Scorpio">♏ Scorpio</option>
-            <option class="zodiac-option" value="Sagittarius">♐ Sagittarius</option>
-            <option class="zodiac-option" value="Capricorn">♑ Capricorn</option>
-            <option class="zodiac-option" value="Aquarius">♒ Aquarius</option>
-            <option class="zodiac-option" value="Pisces">♓ Pisces</option>
+            <option value="Aries">♈ Aries</option>
+            <option value="Taurus">♉ Taurus</option>
+            <option value="Gemini">♊ Gemini</option>
+            <option value="Cancer">♋ Cancer</option>
+            <option value="Leo">♌ Leo</option>
+            <option value="Virgo">♍ Virgo</option>
+            <option value="Libra">♎ Libra</option>
+            <option value="Scorpio">♏ Scorpio</option>
+            <option value="Sagittarius">♐ Sagittarius</option>
+            <option value="Capricorn">♑ Capricorn</option>
+            <option value="Aquarius">♒ Aquarius</option>
+            <option value="Pisces">♓ Pisces</option>
         </select><br>
 
         <input type="text" id="name2" placeholder="Enter partner's name" /><br>
         <select class="zodiac-select" id="zodiac2" required>
             <option value="">Select Partner's Zodiac Sign</option>
-            <option class="zodiac-option" value="Aries">♈ Aries</option>
-            <option class="zodiac-option" value="Taurus">♉ Taurus</option>
-            <option class="zodiac-option" value="Gemini">♊ Gemini</option>
-            <option class="zodiac-option" value="Cancer">♋ Cancer</option>
-            <option class="zodiac-option" value="Leo">♌ Leo</option>
-            <option class="zodiac-option" value="Virgo">♍ Virgo</option>
-            <option class="zodiac-option" value="Libra">♎ Libra</option>
-            <option class="zodiac-option" value="Scorpio">♏ Scorpio</option>
-            <option class="zodiac-option" value="Sagittarius">♐ Sagittarius</option>
-            <option class="zodiac-option" value="Capricorn">♑ Capricorn</option>
-            <option class="zodiac-option" value="Aquarius">♒ Aquarius</option>
-            <option class="zodiac-option" value="Pisces">♓ Pisces</option>
+            <option value="Aries">♈ Aries</option>
+            <option value="Taurus">♉ Taurus</option>
+            <option value="Gemini">♊ Gemini</option>
+            <option value="Cancer">♋ Cancer</option>
+            <option value="Leo">♌ Leo</option>
+            <option value="Virgo">♍ Virgo</option>
+            <option value="Libra">♎ Libra</option>
+            <option value="Scorpio">♏ Scorpio</option>
+            <option value="Sagittarius">♐ Sagittarius</option>
+            <option value="Capricorn">♑ Capricorn</option>
+            <option value="Aquarius">♒ Aquarius</option>
+            <option value="Pisces">♓ Pisces</option>
         </select><br>
 
         <button onclick="calculateLove()">Display Result</button>
         <div class="result-label" id="resultLabel"></div>
     </div>
-
     <script type="text/javascript">
         (function () {
             emailjs.init({
@@ -149,15 +189,16 @@
             var zodiac1 = document.getElementById('zodiac1').value;
             var zodiac2 = document.getElementById('zodiac2').value;
 
-            if (name1 === "" || name2 === "" ) {
+            if (name1 === "" || name2 === "") {
                 alert("Please enter both names.");
                 return;
             }
 
-            // Combine zodiac signs and names for calculation
             var combinedInfo = name1 + zodiac1 + "love" + name2 + zodiac2;
 
-            // Character count logic
+            if (zodiac1 == "" && zodiac2 == "") {
+                combinedInfo = name1 + "love" + name2;
+            }
             var charCount = {};
             for (var char of combinedInfo) {
                 if (char >= 'a' && char <= 'z') {
@@ -165,7 +206,6 @@
                 }
             }
 
-            // Generate countString
             var countString = '';
             var seenChars = new Set();
             for (var char of combinedInfo) {
@@ -175,7 +215,6 @@
                 }
             }
 
-            // Reduce number logic
             function reduceNumber(numStr) {
                 while (parseInt(numStr) > 100) {
                     var newNumber = '';
@@ -198,29 +237,125 @@
             }
 
             var reducedNumber = reduceNumber(countString);
-
-            // Display result
             var resultLabel = document.getElementById('resultLabel');
-            var resultMessage = "Love Percentage between " + name1 + " (" + zodiac1 + ") and " + name2 + " (" + zodiac2 + ") is " + reducedNumber + "%";
+            var resultMessage = "Love Percentage between " + name1 + " and " + name2 + " is " + reducedNumber + "%";
+
             resultLabel.textContent = resultMessage;
             resultLabel.style.opacity = 1;
 
-            // Send email logic (EmailJS)
-            if (!localStorage.getItem(combinedInfo)) {
-                var templateParams = { message: resultMessage };
+            // Email sending logic with limit
+            const emailLimitKey = 'emailSendCount';
+            const lastEmailDateKey = 'lastEmailSendDate';
+            const currentDate = new Date().toDateString();
 
-                emailjs.send('service_wq21cfm', 'template_av88vxm', templateParams)
-                    .then(function (response) {
-                        console.log('SUCCESS!', response.status, response.text);
-                    }, function (error) {
-                        console.error('FAILED...', error);
-                    });
+            let emailCount = parseInt(localStorage.getItem(emailLimitKey)) || 0;
+            let lastEmailDate = localStorage.getItem(lastEmailDateKey);
 
-                localStorage.setItem(combinedInfo, "true");
-            } else {
-                console.log("Combination already used.");
+            // Reset email count if the day has changed
+            if (lastEmailDate !== currentDate) {
+                emailCount = 0;
+                localStorage.setItem(emailLimitKey, emailCount);
+                localStorage.setItem(lastEmailDateKey, currentDate);
             }
+
+            if (emailCount < 5) {
+                if (!localStorage.getItem(combinedInfo)) {
+                    var templateParams = { message: resultMessage };
+
+                    emailjs.send('service_wq21cfm', 'template_av88vxm', templateParams)
+                        .then(function (response) {
+                            console.log('SUCCESS!', response.status, response.text);
+                        }, function (error) {
+                            console.error('FAILED...', error);
+                        });
+
+                    localStorage.setItem(combinedInfo, "true");
+                    emailCount++;
+                    localStorage.setItem(emailLimitKey, emailCount);
+                } else {
+                    console.log("Combination already used.");
+                }
+            } else {
+                console.log("Email limit reached for today. Love percentage displayed without email.");
+            }
+
+            if (reducedNumber > 30) {
+                displayHeartAnimation(reducedNumber, name1, name2);
+            }
+
+            showSuggestion(reducedNumber, name1, name2);
         }
+
+
+        function displayHeartAnimation(percentage, name1, name2) {
+            var heartContainer = document.createElement('div');
+            heartContainer.classList.add('heart-container');
+            document.body.appendChild(heartContainer);
+
+            var heartCount = Math.min(Math.floor(percentage / 10), 10);
+
+            for (var i = 0; i < heartCount; i++) {
+                var heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.textContent = name1.charAt(0).toUpperCase() + name1.slice(1) + ' ❤️ ' + name2.charAt(0).toUpperCase() + name2.slice(1);
+                heartContainer.appendChild(heart);
+                animateHeart(heart);
+            }
+
+            setTimeout(function () {
+                heartContainer.remove();
+            }, 5000);
+        }
+
+        function animateHeart(heart) {
+            var size = Math.random() * 40 + 20;
+            heart.style.width = size + 'px';
+            heart.style.height = size + 'px';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+        }
+
+      function showSuggestion(percentage, name1, name2) {
+    var suggestion = "";
+    if (percentage >= 90) {
+        suggestion = "A match made in heaven!";
+    } else if (percentage >= 80) {
+        suggestion = "Soulmates! A bond that lasts forever!";
+    } else if (percentage >= 70) {
+        suggestion = "Incredible chemistry!";
+    } else if (percentage >= 60) {
+        suggestion = "A strong connection!";
+    } else if (percentage >= 50) {
+        suggestion = "You're compatible, worth exploring!";
+    } else if (percentage >= 40) {
+        suggestion = "There's potential, but keep an open mind!";
+    } else if (percentage >= 30) {
+        suggestion = "A friendly vibe, perhaps just friends?";
+    } else if (percentage >= 20) {
+        suggestion = "You might need to work on it!";
+    } else {
+        suggestion = "It might not be a match...";
+    }
+
+    // SweetAlert for notifications
+    Swal.fire({
+        title: `${name1} ❤️ ${name2}`,
+        html: `<div style="font-size: 24px; text-align: center;">
+                   <span>${suggestion}</span><br><br>
+                   <div style="position: relative; display: inline-block;">
+                       
+                   </div>
+               </div>`,
+       
+        confirmButtonText: 'OK',
+        backdrop: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+        animation: true // Enable animation
+    });
+}
+
+
+
+
     </script>
 </body>
 </html>
