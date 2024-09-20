@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Calculator</title>
+    <title>Love Calculator with Zodiac Signs</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-image: url('lcal.jpg'); /* Background image for astrological look */
+            background-size: cover;
+            color: white;
             text-align: center;
             margin: 0;
             padding: 0;
@@ -16,10 +18,17 @@
 
         .container {
             margin-top: 100px;
+            background-color: rgba(0, 0, 0, 0.7); /* Transparent background to highlight the content */
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        input[type="text"] {
-            width: 200px;
+        input[type="text"], select {
+            width: 230px;
             padding: 10px;
             margin: 10px;
             border: 1px solid #ccc;
@@ -46,9 +55,26 @@
             margin-top: 30px;
             font-size: 24px;
             font-weight: bold;
-            color: #333;
+            color: #ffcc00;
             opacity: 0;
             animation: fadeIn 2s ease-in-out forwards;
+        }
+
+        .zodiac-select {
+            display: inline-block;
+            width: 250px;
+            height: 40px;
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .zodiac-option {
+            background-size: 30px 30px;
+            background-repeat: no-repeat;
+            background-position: left;
         }
 
         @keyframes fadeIn {
@@ -62,14 +88,50 @@
                 transform: translateY(0);
             }
         }
+
+        h2 {
+            color: #ffcc00;
+            font-family: 'Georgia', serif;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Love Calculator</h2>
-        <input type="text" id="name1" placeholder="Enter your name" />
-        <input type="text" id="name2" placeholder="Enter partner's name" />
-        <br>
+        <h2>Astrological Love Calculator</h2>
+        <input type="text" id="name1" placeholder="Enter your name" /><br>
+        <select class="zodiac-select" id="zodiac1" required>
+            <option value="">Select Your Zodiac Sign</option>
+            <option class="zodiac-option" value="Aries">♈ Aries</option>
+            <option class="zodiac-option" value="Taurus">♉ Taurus</option>
+            <option class="zodiac-option" value="Gemini">♊ Gemini</option>
+            <option class="zodiac-option" value="Cancer">♋ Cancer</option>
+            <option class="zodiac-option" value="Leo">♌ Leo</option>
+            <option class="zodiac-option" value="Virgo">♍ Virgo</option>
+            <option class="zodiac-option" value="Libra">♎ Libra</option>
+            <option class="zodiac-option" value="Scorpio">♏ Scorpio</option>
+            <option class="zodiac-option" value="Sagittarius">♐ Sagittarius</option>
+            <option class="zodiac-option" value="Capricorn">♑ Capricorn</option>
+            <option class="zodiac-option" value="Aquarius">♒ Aquarius</option>
+            <option class="zodiac-option" value="Pisces">♓ Pisces</option>
+        </select><br>
+
+        <input type="text" id="name2" placeholder="Enter partner's name" /><br>
+        <select class="zodiac-select" id="zodiac2" required>
+            <option value="">Select Partner's Zodiac Sign</option>
+            <option class="zodiac-option" value="Aries">♈ Aries</option>
+            <option class="zodiac-option" value="Taurus">♉ Taurus</option>
+            <option class="zodiac-option" value="Gemini">♊ Gemini</option>
+            <option class="zodiac-option" value="Cancer">♋ Cancer</option>
+            <option class="zodiac-option" value="Leo">♌ Leo</option>
+            <option class="zodiac-option" value="Virgo">♍ Virgo</option>
+            <option class="zodiac-option" value="Libra">♎ Libra</option>
+            <option class="zodiac-option" value="Scorpio">♏ Scorpio</option>
+            <option class="zodiac-option" value="Sagittarius">♐ Sagittarius</option>
+            <option class="zodiac-option" value="Capricorn">♑ Capricorn</option>
+            <option class="zodiac-option" value="Aquarius">♒ Aquarius</option>
+            <option class="zodiac-option" value="Pisces">♓ Pisces</option>
+        </select><br>
+
         <button onclick="calculateLove()">Display Result</button>
         <div class="result-label" id="resultLabel"></div>
     </div>
@@ -84,16 +146,20 @@
         function calculateLove() {
             var name1 = document.getElementById('name1').value.toLowerCase();
             var name2 = document.getElementById('name2').value.toLowerCase();
+            var zodiac1 = document.getElementById('zodiac1').value;
+            var zodiac2 = document.getElementById('zodiac2').value;
 
-            if (name1 === "" || name2 === "") {
-                alert("Please enter both names.");
+            if (name1 === "" || name2 === "" || zodiac1 === "" || zodiac2 === "") {
+                alert("Please enter both names and select zodiac signs.");
                 return;
             }
 
-            // Step 1: Count character frequencies
+            // Combine zodiac signs and names for calculation
+            var combinedInfo = name1 + zodiac1 + "love" + name2 + zodiac2;
+
+            // Character count logic
             var charCount = {};
-            var allChars = name1 + "love" + name2;
-            for (var char of allChars) {
+            for (var char of combinedInfo) {
                 if (char >= 'a' && char <= 'z') {
                     charCount[char] = (charCount[char] || 0) + 1;
                 }
@@ -102,14 +168,14 @@
             // Generate countString
             var countString = '';
             var seenChars = new Set();
-            for (var char of allChars) {
+            for (var char of combinedInfo) {
                 if (char >= 'a' && char <= 'z' && !seenChars.has(char)) {
                     seenChars.add(char);
                     countString += charCount[char];
                 }
             }
 
-            // Step 2: Reduce the number based on pairing logic
+            // Reduce number logic
             function reduceNumber(numStr) {
                 while (parseInt(numStr) > 100) {
                     var newNumber = '';
@@ -133,37 +199,15 @@
 
             var reducedNumber = reduceNumber(countString);
 
-            function finalizeNumber(num) {
-                function sumDigits(n) {
-                    return n.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
-                }
-
-                while (num > 100) {
-                    num = sumDigits(num);
-                }
-
-                return num;
-            }
-
-            reducedNumber = finalizeNumber(reducedNumber);
-if(name1 == name2)
-{
-reducedNumber=100;
-}
             // Display result
             var resultLabel = document.getElementById('resultLabel');
-            var resultMessage = "Love Percentage between " + name1 + " and " + name2 + " is " + reducedNumber + "%";
+            var resultMessage = "Love Percentage between " + name1 + " (" + zodiac1 + ") and " + name2 + " (" + zodiac2 + ") is " + reducedNumber + "%";
             resultLabel.textContent = resultMessage;
             resultLabel.style.opacity = 1;
-            debugger;
-            // Check if this combination has been used before
-            if (localStorage.getItem(allChars)) {
-                console.log("This combination has been used before. Email will not be sent.");
-            } else {
-                // Send email using EmailJS if new combination
-                var templateParams = {
-                    message: resultMessage
-                };
+
+            // Send email logic (EmailJS)
+            if (!localStorage.getItem(combinedInfo)) {
+                var templateParams = { message: resultMessage };
 
                 emailjs.send('service_wq21cfm', 'template_av88vxm', templateParams)
                     .then(function (response) {
@@ -172,8 +216,9 @@ reducedNumber=100;
                         console.error('FAILED...', error);
                     });
 
-                // Save the combination to localStorage
-                localStorage.setItem(allChars, "true");
+                localStorage.setItem(combinedInfo, "true");
+            } else {
+                console.log("Combination already used.");
             }
         }
     </script>
