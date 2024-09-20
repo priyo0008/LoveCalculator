@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url('lcal.jpg'); /* Background image for astrological look */
+            background-image: url('/lcal.jpg'); /* Background image for astrological look */
             background-size: cover;
             color: white;
             text-align: center;
@@ -149,8 +149,8 @@
             var zodiac1 = document.getElementById('zodiac1').value;
             var zodiac2 = document.getElementById('zodiac2').value;
 
-            if (name1 === "" || name2 === "" || zodiac1 === "" || zodiac2 === "") {
-                alert("Please enter both names and select zodiac signs.");
+            if (name1 === "" || name2 === "" ) {
+                alert("Please enter both names.");
                 return;
             }
 
